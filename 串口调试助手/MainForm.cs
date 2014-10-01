@@ -17,35 +17,42 @@ namespace 串口调试助手
 {
     public partial class MainForm : Form
     {
-        private TcpListener listener;
-        private TcpClient client;
-        private Thread thread;
-        private TcpClient remoteClient;
-        private NetworkStream streamToClient;
-        private bool sendOver = false;
-        private Thread useXmlThread;
-        AutoResetEvent useXmlEvent = new AutoResetEvent(false);
+        private TcpListener listener;//监听本地端口
+        private TcpClient client;//TCP客户端,向对方发送消息
+        private Thread thread;//监听线程
+        private TcpClient remoteClient;//用于获取对方发来的消息
+        private NetworkStream streamToClient;//用于读取对方发来的消息
+        private bool sendOver = false;//无用，要删掉
+        private Thread useXmlThread;//循环使用不同配置文件的线程
+        AutoResetEvent useXmlEvent = new AutoResetEvent(false);//用于向useXmlThread线程发送暂停和继续的消息
+
+        //接收串口信息的格式
         private enum ReceivedDataType
         {
             CharType,
             HexType
         };
+
+        //发送串口信息的格式
         private enum SendDataType
         {
             CharType,
             HexType
         }
 
-        private ReceivedDataType myReceivedDataType = ReceivedDataType.CharType;
-        private SendDataType mySendDataType = SendDataType.CharType;
-        private int totalReceivedBytes = 0;
-        private int totalSendBytes = 0;
-        private bool autoSend = false;
+        private ReceivedDataType myReceivedDataType = ReceivedDataType.CharType;//保存接收串口信息的格式
+        private SendDataType mySendDataType = SendDataType.CharType;//保存发送串口信息的格式
+        private int totalReceivedBytes = 0;//接收串口信息的总字节数
+        private int totalSendBytes = 0;//发送串口信息的总字节数
+        private bool autoSend = false;//保存是否自动发送
+
+        //直接打开窗口
         public MainForm()
         {
             InitializeComponent();
             UpdateTextHandler = new UpdateAcceptTextBoxTextHandler(UpdateText);
         }
+        //命令行打开窗口，接收一个参数
         public MainForm(string args)
         {
             InitializeComponent();
@@ -937,7 +944,11 @@ namespace 串口调试助手
 
         private void SendInfoButton_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("下发配置，暂时不支持");
+            //MessageBox.Show("下发配置，暂时不支持");
+            //LogHelper.WriteLog(typeof(MainForm), "测试Log4Net日志是否写入");
+            LogHelper.WriteError(typeof(MainForm), "this is an error msg");
+            LogHelper.WriteDebug(typeof(MainForm), "this is an debug msg");
+            LogHelper.WriteInfo(typeof(MainForm), "this is an info msg");
         }
 
         private void button2_Click(object sender, EventArgs e)
