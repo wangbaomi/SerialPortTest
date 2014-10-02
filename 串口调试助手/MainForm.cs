@@ -45,23 +45,25 @@ namespace 串口调试助手
         private int totalReceivedBytes = 0;//接收串口信息的总字节数
         private int totalSendBytes = 0;//发送串口信息的总字节数
         private bool autoSend = false;//保存是否自动发送
+        private string cmd = "";  //命令行启动参数
+        private bool hasPorts = false;//是否有可用的串口
 
         //直接打开窗口
         public MainForm()
         {
             InitializeComponent();
             UpdateTextHandler = new UpdateAcceptTextBoxTextHandler(UpdateText);
+            LogHelper.WriteDebug(typeof(MainForm), "Start without args.");
         }
         //命令行打开窗口，接收一个参数
         public MainForm(string args)
         {
             InitializeComponent();
             UpdateTextHandler = new UpdateAcceptTextBoxTextHandler(UpdateText);
-
             cmd = args;
-            //MessageBox.Show(cmd);
+            LogHelper.WriteDebug(typeof(MainForm), "Start with args: " + cmd);
         }
-        private string cmd = "";  
+       
         /// <summary>
         /// 当主form绘制后，进行初始化操作。
         /// </summary>
@@ -76,7 +78,7 @@ namespace 串口调试助手
             //载入配置信息
             if (cmd == "")
             {
-                LoadConfig("串口助手配置.xml");
+                LoadConfig("串口助手配置.xml");//载入默认配置
             }
             else
             {
@@ -97,9 +99,10 @@ namespace 串口调试助手
             dataBitsComboBox.SelectedIndex = 0;
             //默认停止位设置为1位
             stopBitsComboBox.SelectedIndex = 0;
+            LogHelper.WriteDebug(typeof(MainForm), "默认端口参数设置");
         }
 
-        private bool hasPorts = false;
+        
         /// <summary>
         /// 获取可用的端口名，并添加到选择框中，同时设置相关
         /// 默认项。
@@ -108,6 +111,7 @@ namespace 串口调试助手
         {
             portNameComboBox.Items.Clear();
             string[] allAvailablePorts = SerialPort.GetPortNames();
+            LogHelper.WriteDebug(typeof(MainForm), "Check all available ports: " + allAvailablePorts.Length);
             //判断是否有可用的端口
             if (allAvailablePorts.Length > 0)
             {
@@ -122,6 +126,7 @@ namespace 串口调试助手
                 //显示相应的状态信息
                 statusDisplayToolStripStatusLabel.Text = string.Format("  欢迎使用！自动查找到该计算机可用端口数：{0}，当前选中端口号{1}  :)",
                     allAvailablePorts.Length, portNameComboBox.SelectedItem.ToString());
+               
             }
             else
             {
@@ -156,6 +161,7 @@ namespace 串口调试助手
             }
         }
 
+        //检查端口号
         private void button1_Click(object sender, EventArgs e)
         {
             CheckAvailablePorts();
@@ -194,10 +200,12 @@ namespace 串口调试助手
                 openOrClosePortButton.Text = "关闭选中端口";
                 //打开串口成功后
                 OpenSelectedPortSuccessfully();
+                LogHelper.WriteInfo(typeof(MainForm), "Open port " + this.portNameComboBox.SelectedItem.ToString() + " success.");
             }
             catch (Exception ee)
             {
                 MessageBox.Show(ee.Message);
+                LogHelper.WriteInfo(typeof(MainForm), "Open port" + this.portNameComboBox.SelectedItem.ToString() + " fail, error = " + ee.Message);
             }
 
         }
@@ -231,6 +239,7 @@ namespace 串口调试助手
                 mySerialPort.PortName);
             //所有设置控件非使能态
             CloseSelectedPortSuccessfully();
+            LogHelper.WriteInfo(typeof(MainForm), "Close port " + this.portNameComboBox.SelectedItem.ToString() + " success.");
         }
 
         private void CloseSelectedPortSuccessfully()
@@ -252,7 +261,7 @@ namespace 串口调试助手
             //sendRichTextBox.Clear();
         }
 
-        private bool firstTime = true;
+        private bool firstTime = false;
         int count = 2;
         private void updateDateTimer_Tick(object sender, EventArgs e)
         {
@@ -283,7 +292,7 @@ namespace 串口调试助手
                 {
                     if (firstTime && hasPorts)
                     {
-                        new AboutForm().ShowDialog();
+                        //new AboutForm().ShowDialog();
                     }
                 }
             }
@@ -336,10 +345,12 @@ namespace 串口调试助手
             {
 
                 SerialPortSendChar(this.sendRichTextBox.Text.ToString());
+                LogHelper.WriteInfo(typeof(MainForm), "Send Chars: " + this.sendRichTextBox.Text.ToString());
             }
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
+                LogHelper.WriteInfo(typeof(MainForm), "Send Chars: " + this.sendRichTextBox.Text.ToString() + " fail, error = " + e.Message);
             }
         }
 
@@ -400,22 +411,12 @@ namespace 串口调试助手
                 stopBitsComboBox.SelectedItem = "1";
             }
 
-            //try
-            //{
-            //    //mySerialPort.ReadTimeout = (int)intervalTimeNumericUpDown.Value;
-            //    //mySerialPort.WriteTimeout = (int)intervalTimeNumericUpDown.Value;
-            //}
-            //catch(Exception ee)
-            //{
-            //    mySerialPort.ReadTimeout = 500;
-            //    mySerialPort.WriteTimeout = 500;
-            //    MessageBox.Show(ee.Message);
-            //}
             //更新状态栏的显示
             statusDisplayToolStripStatusLabel.Text = string.Format(
                 "当前打开的端口 {0}，波特率 {1}，奇偶校验 {2}， 数据位 {3}，停止位 {4}",
                 portNameComboBox.SelectedItem, baudRateComboBox.SelectedItem, parityComboBox.SelectedItem,
                 dataBitsComboBox.SelectedItem, stopBitsComboBox.SelectedItem);
+            LogHelper.WriteInfo(typeof(MainForm), statusDisplayToolStripStatusLabel.Text);
         }
 
         private StopBits GetSelectedStopBits()
@@ -653,6 +654,7 @@ namespace 串口调试助手
             if (showInfo)
             {
                 acceptRichTextBox.Text += text;
+                LogHelper.WriteInfo(typeof(MainForm), "Receive Chars: " + text);
                 acceptStatusLabel.Text = totalReceivedBytes.ToString() + "字节";
             }
             isReading = true;
@@ -847,25 +849,16 @@ namespace 串口调试助手
         private void ListenButton_Click(object sender, EventArgs e)
         {
             this.richTextBox1.Clear();
-            //try
-            //{
-            //    IPAddress.Parse(RemoteIPTextBox.Text);
-            //    Int32.Parse(RemotePortTextBox.Text);
-            //}
-            //catch (Exception err)
-            //{
-            //    MessageBox.Show(err.ToString());
-            //    return;
-            //}
             if (thread != null && thread.ThreadState == ThreadState.Running)
             {
-                MessageBox.Show("已经在监听中。。。");
+                MessageBox.Show("已经在监听中...");
                 return;
             }
             try
             {
                 thread = new Thread(new ThreadStart( StartServer));
                 thread.Start();
+                
             }
             catch (Exception err)
             {
@@ -876,28 +869,6 @@ namespace 串口调试助手
 
         private void SendMsgButton_Click(object sender, EventArgs e)
         {
-            //try
-            //{
-            //    IPAddress.Parse(RemoteIPTextBox.Text);
-            //    Int32.Parse(RemoteIPTextBox.Text);
-            //}
-            //catch (Exception err)
-            //{
-            //    MessageBox.Show(err.ToString());
-            //    return;
-            //}
-            //if (thread == null || thread.ThreadState != ThreadState.Running)
-            //{
-            //    MessageBox.Show("xuyao qidong...");
-            //    return;
-            //}
-            //TcpClient theClient = new TcpClient(RemoteIPTextBox.Text, Int32.Parse(RemoteIPTextBox.Text));
-            //string send = richTextBox2.Text + "\r\n";
-            //byte[] messageByte = System.Text.Encoding.BigEndianUnicode.GetBytes(send.ToCharArray());
-            //NetworkStream theStream = theClient.GetStream();
-            //theStream.Write(messageByte, 0, messageByte.Length);
-            //theStream.Close();
-            //theClient.Close();
             StartClient();
         }
 
@@ -908,47 +879,33 @@ namespace 串口调试助手
                 if (streamToClient != null)
                 {
                     streamToClient.Close();
-                    MessageBox.Show("1");
                 }
                 if (remoteClient != null)
                 {
                     remoteClient.Close();
-                    MessageBox.Show("2");
                 }
                 if (listener != null)
                 {
                     listener.Stop();
-                    MessageBox.Show("3");
                 }
                 if (thread != null && thread.ThreadState == ThreadState.Running)
                 {
-                    MessageBox.Show("4");
                     thread.Abort();
-                    MessageBox.Show("5");
                 }
                 
-
                 this.StopListenButton.Enabled = false;
                 this.StartButton.Enabled = true;
-                //MessageBox.Show("这个功能有问题，需要手动杀掉进程");
             }
             catch (Exception err)
             {
                 MessageBox.Show(err.ToString());
             }
             
-
-            
-            
         }
 
         private void SendInfoButton_Click(object sender, EventArgs e)
         {
-            //MessageBox.Show("下发配置，暂时不支持");
-            //LogHelper.WriteLog(typeof(MainForm), "测试Log4Net日志是否写入");
-            LogHelper.WriteError(typeof(MainForm), "this is an error msg");
-            LogHelper.WriteDebug(typeof(MainForm), "this is an debug msg");
-            LogHelper.WriteInfo(typeof(MainForm), "this is an info msg");
+            MessageBox.Show("下发配置，暂时不支持");
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -961,8 +918,10 @@ namespace 串口调试助手
         {
             if (this.sendRichTextBox.Text.Equals(this.acceptRichTextBox.Text))
             {
+                LogHelper.WriteInfo(typeof(MainForm), "Check: Send chars == Receive chars.");
                 return true;
             }
+            LogHelper.WriteInfo(typeof(MainForm), "Check: Send chars != Receive chars.");
             return false;
         }
 
@@ -992,10 +951,12 @@ namespace 串口调试助手
         //开始每个配置文件
         private void useXmls()
         {
+            
             try
             {
                 for (int i = 0; i < this.XmlListBox.Items.Count; i++)
                 {
+                    LogHelper.WriteInfo(typeof(MainForm), "自动测试, 配置文件为: " + XmlListBox.Items[i].ToString());
                     this.richTextBox2.Text = "USE XML " + XmlListBox.Items[i].ToString();
                     SendMsgButton_Click(null, null);
                     LoadConfig(XmlListBox.Items[i].ToString());
@@ -1044,6 +1005,16 @@ namespace 串口调试助手
             {
                 useXmlEvent.Set();
             }
+        }
+
+        private void XmlContextMenuStrip_Opening(object sender, CancelEventArgs e)
+        {
+
+        }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            this.XmlListBox.Items.RemoveAt(this.XmlListBox.SelectedIndex);
         }
     }
 }

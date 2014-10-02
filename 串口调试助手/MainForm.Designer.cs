@@ -48,7 +48,7 @@
             this.关于软件AToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox = new System.Windows.Forms.GroupBox();
             this.openStatusPictureBox = new System.Windows.Forms.PictureBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.CheckPortButton = new System.Windows.Forms.Button();
             this.openOrClosePortButton = new System.Windows.Forms.Button();
             this.stopBitsComboBox = new System.Windows.Forms.ComboBox();
             this.dataBitsComboBox = new System.Windows.Forms.ComboBox();
@@ -118,6 +118,10 @@
             this.RemoteIPTextBox = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.ListenButton = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.XmlContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.mainFormContextMenuStrip.SuspendLayout();
@@ -136,6 +140,7 @@
             this.groupBox2.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.XmlContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -272,7 +277,7 @@
             this.groupBox.BackColor = System.Drawing.SystemColors.Window;
             this.groupBox.ContextMenuStrip = this.mainFormContextMenuStrip;
             this.groupBox.Controls.Add(this.openStatusPictureBox);
-            this.groupBox.Controls.Add(this.button1);
+            this.groupBox.Controls.Add(this.CheckPortButton);
             this.groupBox.Controls.Add(this.openOrClosePortButton);
             this.groupBox.Controls.Add(this.stopBitsComboBox);
             this.groupBox.Controls.Add(this.dataBitsComboBox);
@@ -303,15 +308,15 @@
             this.openStatusPictureBox.TabIndex = 12;
             this.openStatusPictureBox.TabStop = false;
             // 
-            // button1
+            // CheckPortButton
             // 
-            this.button1.Location = new System.Drawing.Point(128, 335);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(104, 23);
-            this.button1.TabIndex = 11;
-            this.button1.Text = "查找可用端口";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.CheckPortButton.Location = new System.Drawing.Point(128, 335);
+            this.CheckPortButton.Name = "CheckPortButton";
+            this.CheckPortButton.Size = new System.Drawing.Size(104, 23);
+            this.CheckPortButton.TabIndex = 11;
+            this.CheckPortButton.Text = "查找可用端口";
+            this.CheckPortButton.UseVisualStyleBackColor = true;
+            this.CheckPortButton.Click += new System.EventHandler(this.button1_Click);
             // 
             // openOrClosePortButton
             // 
@@ -868,7 +873,7 @@
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(778, 440);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "收发数据";
+            this.tabPage1.Text = "手动测试";
             // 
             // tabPage2
             // 
@@ -881,7 +886,7 @@
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(778, 440);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "配置";
+            this.tabPage2.Text = "自动测试";
             // 
             // groupBox2
             // 
@@ -893,21 +898,21 @@
             this.groupBox2.Size = new System.Drawing.Size(247, 383);
             this.groupBox2.TabIndex = 7;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "配置文件";
+            this.groupBox2.Text = "配置文件路径";
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(173, 17);
+            this.button2.Location = new System.Drawing.Point(179, 43);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(68, 23);
+            this.button2.Size = new System.Drawing.Size(62, 23);
             this.button2.TabIndex = 2;
-            this.button2.Text = "选择文件夹";
+            this.button2.Text = "选择";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click_1);
             // 
             // XmlPathTextBox
             // 
-            this.XmlPathTextBox.Location = new System.Drawing.Point(7, 20);
+            this.XmlPathTextBox.Location = new System.Drawing.Point(7, 45);
             this.XmlPathTextBox.Name = "XmlPathTextBox";
             this.XmlPathTextBox.Size = new System.Drawing.Size(159, 21);
             this.XmlPathTextBox.TabIndex = 1;
@@ -915,6 +920,7 @@
             // 
             // XmlListBox
             // 
+            this.XmlListBox.ContextMenuStrip = this.XmlContextMenuStrip;
             this.XmlListBox.FormattingEnabled = true;
             this.XmlListBox.ItemHeight = 12;
             this.XmlListBox.Location = new System.Drawing.Point(7, 81);
@@ -935,17 +941,17 @@
             // 
             // StartButton
             // 
-            this.StartButton.Location = new System.Drawing.Point(48, 124);
+            this.StartButton.Location = new System.Drawing.Point(34, 125);
             this.StartButton.Name = "StartButton";
-            this.StartButton.Size = new System.Drawing.Size(75, 23);
+            this.StartButton.Size = new System.Drawing.Size(117, 23);
             this.StartButton.TabIndex = 1;
-            this.StartButton.Text = "开始";
+            this.StartButton.Text = "开始自动测试";
             this.StartButton.UseVisualStyleBackColor = true;
             this.StartButton.Click += new System.EventHandler(this.StartButton_Click);
             // 
             // SendInfoButton
             // 
-            this.SendInfoButton.Location = new System.Drawing.Point(28, 48);
+            this.SendInfoButton.Location = new System.Drawing.Point(34, 48);
             this.SendInfoButton.Name = "SendInfoButton";
             this.SendInfoButton.Size = new System.Drawing.Size(117, 23);
             this.SendInfoButton.TabIndex = 0;
@@ -955,6 +961,8 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.label11);
+            this.groupBox4.Controls.Add(this.label10);
             this.groupBox4.Controls.Add(this.StopListenButton);
             this.groupBox4.Controls.Add(this.SendMsgButton);
             this.groupBox4.Controls.Add(this.richTextBox2);
@@ -977,7 +985,7 @@
             // 
             // StopListenButton
             // 
-            this.StopListenButton.Location = new System.Drawing.Point(123, 191);
+            this.StopListenButton.Location = new System.Drawing.Point(131, 138);
             this.StopListenButton.Name = "StopListenButton";
             this.StopListenButton.Size = new System.Drawing.Size(75, 23);
             this.StopListenButton.TabIndex = 12;
@@ -987,34 +995,34 @@
             // 
             // SendMsgButton
             // 
-            this.SendMsgButton.Location = new System.Drawing.Point(58, 330);
+            this.SendMsgButton.Location = new System.Drawing.Point(68, 329);
             this.SendMsgButton.Name = "SendMsgButton";
             this.SendMsgButton.Size = new System.Drawing.Size(75, 23);
             this.SendMsgButton.TabIndex = 11;
-            this.SendMsgButton.Text = "send";
+            this.SendMsgButton.Text = "发送";
             this.SendMsgButton.UseVisualStyleBackColor = true;
             this.SendMsgButton.Click += new System.EventHandler(this.SendMsgButton_Click);
             // 
             // richTextBox2
             // 
-            this.richTextBox2.Location = new System.Drawing.Point(32, 279);
+            this.richTextBox2.Location = new System.Drawing.Point(23, 270);
             this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.Size = new System.Drawing.Size(166, 34);
+            this.richTextBox2.Size = new System.Drawing.Size(183, 34);
             this.richTextBox2.TabIndex = 10;
             this.richTextBox2.Text = "";
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(32, 231);
+            this.richTextBox1.Location = new System.Drawing.Point(23, 206);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(166, 29);
+            this.richTextBox1.Size = new System.Drawing.Size(183, 29);
             this.richTextBox1.TabIndex = 9;
             this.richTextBox1.Text = "";
             this.richTextBox1.TextChanged += new System.EventHandler(this.richTextBox1_TextChanged);
             // 
             // LocalPortTextBox
             // 
-            this.LocalPortTextBox.Location = new System.Drawing.Point(159, 67);
+            this.LocalPortTextBox.Location = new System.Drawing.Point(159, 46);
             this.LocalPortTextBox.Name = "LocalPortTextBox";
             this.LocalPortTextBox.Size = new System.Drawing.Size(47, 21);
             this.LocalPortTextBox.TabIndex = 8;
@@ -1023,7 +1031,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(157, 48);
+            this.label19.Location = new System.Drawing.Point(157, 27);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(41, 12);
             this.label19.TabIndex = 7;
@@ -1031,7 +1039,7 @@
             // 
             // LocalIPTextBox
             // 
-            this.LocalIPTextBox.Location = new System.Drawing.Point(23, 67);
+            this.LocalIPTextBox.Location = new System.Drawing.Point(23, 46);
             this.LocalIPTextBox.Name = "LocalIPTextBox";
             this.LocalIPTextBox.Size = new System.Drawing.Size(120, 21);
             this.LocalIPTextBox.TabIndex = 6;
@@ -1039,7 +1047,7 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(21, 48);
+            this.label20.Location = new System.Drawing.Point(21, 27);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(65, 12);
             this.label20.TabIndex = 5;
@@ -1047,7 +1055,7 @@
             // 
             // RemotePortTextBox
             // 
-            this.RemotePortTextBox.Location = new System.Drawing.Point(159, 155);
+            this.RemotePortTextBox.Location = new System.Drawing.Point(159, 102);
             this.RemotePortTextBox.Name = "RemotePortTextBox";
             this.RemotePortTextBox.Size = new System.Drawing.Size(47, 21);
             this.RemotePortTextBox.TabIndex = 4;
@@ -1056,7 +1064,7 @@
             // label18
             // 
             this.label18.AutoSize = true;
-            this.label18.Location = new System.Drawing.Point(157, 136);
+            this.label18.Location = new System.Drawing.Point(157, 83);
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(41, 12);
             this.label18.TabIndex = 3;
@@ -1064,7 +1072,7 @@
             // 
             // RemoteIPTextBox
             // 
-            this.RemoteIPTextBox.Location = new System.Drawing.Point(23, 155);
+            this.RemoteIPTextBox.Location = new System.Drawing.Point(23, 102);
             this.RemoteIPTextBox.Name = "RemoteIPTextBox";
             this.RemoteIPTextBox.Size = new System.Drawing.Size(120, 21);
             this.RemoteIPTextBox.TabIndex = 2;
@@ -1072,7 +1080,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(21, 136);
+            this.label17.Location = new System.Drawing.Point(21, 83);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(65, 12);
             this.label17.TabIndex = 1;
@@ -1080,13 +1088,46 @@
             // 
             // ListenButton
             // 
-            this.ListenButton.Location = new System.Drawing.Point(32, 191);
+            this.ListenButton.Location = new System.Drawing.Point(32, 138);
             this.ListenButton.Name = "ListenButton";
-            this.ListenButton.Size = new System.Drawing.Size(84, 23);
+            this.ListenButton.Size = new System.Drawing.Size(76, 23);
             this.ListenButton.TabIndex = 0;
             this.ListenButton.Text = "监听";
             this.ListenButton.UseVisualStyleBackColor = true;
             this.ListenButton.Click += new System.EventHandler(this.ListenButton_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(23, 188);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(53, 12);
+            this.label10.TabIndex = 13;
+            this.label10.Text = "接收消息";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(23, 252);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(53, 12);
+            this.label11.TabIndex = 14;
+            this.label11.Text = "发送消息";
+            // 
+            // XmlContextMenuStrip
+            // 
+            this.XmlContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1});
+            this.XmlContextMenuStrip.Name = "XmlContextMenuStrip";
+            this.XmlContextMenuStrip.Size = new System.Drawing.Size(153, 48);
+            this.XmlContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.XmlContextMenuStrip_Opening);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.toolStripMenuItem1.Text = "删除";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
             // 
             // MainForm
             // 
@@ -1104,7 +1145,7 @@
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "串口调试";
+            this.Text = "串口测试";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip1.ResumeLayout(false);
@@ -1135,6 +1176,7 @@
             this.groupBox5.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.XmlContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1166,7 +1208,7 @@
         private System.Windows.Forms.ComboBox baudRateComboBox;
         private System.Windows.Forms.ComboBox portNameComboBox;
         private System.Windows.Forms.Button openOrClosePortButton;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button CheckPortButton;
         private System.Windows.Forms.PictureBox openStatusPictureBox;
         private System.Windows.Forms.Timer updateDateTimer;
         private System.Windows.Forms.GroupBox acceptZoneSettingGroupBox;
@@ -1242,6 +1284,10 @@
         private System.Windows.Forms.Button StartButton;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox XmlPathTextBox;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.ContextMenuStrip XmlContextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
     }
 }
 
