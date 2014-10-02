@@ -84,6 +84,17 @@ namespace 串口调试助手
             {
                 LoadConfig(cmd);
             }
+            //显示当前目录的配置文件列表
+            DirectoryInfo TheFolder = new DirectoryInfo(System.Environment.CurrentDirectory);
+            foreach (FileInfo NextFile in TheFolder.GetFiles())
+            {
+                //MessageBox.Show(NextFile.Extension);
+                if (NextFile.Extension == ".xml")
+                {
+                    this.XmlListBox.Items.Add(NextFile.Name);
+                }
+
+            }
            
         }
         /// <summary>
