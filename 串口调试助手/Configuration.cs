@@ -247,10 +247,9 @@ namespace 串口调试助手
             LogHelper.WriteDebug(typeof(MainForm), "接收指令: " +  cmd);
             //如果收到USE XML XXX的消息，就加载这个配置文件，并打开串口, 然后发送指令 USE OK
             if (cmd.Contains("USE XML"))
-            {
+            {  
                 string file = cmd.Split(default(Char[]), 3, StringSplitOptions.RemoveEmptyEntries)[2];
-                //MessageBox.Show(file);
-
+                result_sw.WriteLine("配置文件：" + file);
                 LoadConfig(file);
                 this.richTextBox2.Text = "USE OK";
                 SendMsgButton_Click(null, null);
@@ -259,7 +258,6 @@ namespace 串口调试助手
             //这边就可以发字符串了，然后发送指令 SEND OK
             else if (cmd.Contains("USE OK"))
             {
-                //MessageBox.Show("USE OK");
                 startSendButton_Click(null, null);
                 this.richTextBox2.Text = "SEND OK";
                 SendMsgButton_Click(null, null);
@@ -268,9 +266,7 @@ namespace 串口调试助手
             //然后发送字符串到串口，最后发送 SEND OVER指令，表明双方都发送完毕
             else if (cmd.Contains("SEND OK"))
             {
-                //MessageBox.Show("SEND OK");
                 bool ret = check();
-                //MessageBox.Show(ret.ToString());
                 startSendButton_Click(null, null);
                 this.richTextBox2.Text = "SEND OVER";
                 SendMsgButton_Click(null, null);
@@ -278,14 +274,18 @@ namespace 串口调试助手
             //如果收到 SEND OVER消息，说明己方和对方都已发送了串口消息，一个配置文件测试完毕
             else if (cmd.Contains("SEND OVER"))
             {
-                //MessageBox.Show("SEND OVER");
                 bool ret = check();
-                //MessageBox.Show(ret.ToString());
                 this.richTextBox1.Text = ("OVER");
+            }
+            //自动测试完毕
+            else if (cmd.Contains("AutoTest Over"))
+            {
+                result_sw.Flush();
+                result_sw.Close();
+                result_file.Close();
             }
             else
             {
-                //MessageBox.Show("ERROR");
                 LogHelper.WriteDebug(typeof(MainForm), "接收指令: " + cmd + ", 非法指令!");
             }
 

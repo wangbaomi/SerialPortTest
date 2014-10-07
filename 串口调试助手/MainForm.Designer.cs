@@ -101,10 +101,14 @@
             this.button2 = new System.Windows.Forms.Button();
             this.XmlPathTextBox = new System.Windows.Forms.TextBox();
             this.XmlListBox = new System.Windows.Forms.ListBox();
+            this.XmlContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.StartButton = new System.Windows.Forms.Button();
             this.SendInfoButton = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.StopListenButton = new System.Windows.Forms.Button();
             this.SendMsgButton = new System.Windows.Forms.Button();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
@@ -118,10 +122,8 @@
             this.RemoteIPTextBox = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.ListenButton = new System.Windows.Forms.Button();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.XmlContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.AutoRichTextBox = new System.Windows.Forms.RichTextBox();
+            this.ReadAutoResultButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.mainFormContextMenuStrip.SuspendLayout();
@@ -138,9 +140,9 @@
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.XmlContextMenuStrip.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.groupBox4.SuspendLayout();
-            this.XmlContextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -928,8 +930,25 @@
             this.XmlListBox.Size = new System.Drawing.Size(234, 292);
             this.XmlListBox.TabIndex = 0;
             // 
+            // XmlContextMenuStrip
+            // 
+            this.XmlContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1});
+            this.XmlContextMenuStrip.Name = "XmlContextMenuStrip";
+            this.XmlContextMenuStrip.Size = new System.Drawing.Size(101, 26);
+            this.XmlContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.XmlContextMenuStrip_Opening);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(100, 22);
+            this.toolStripMenuItem1.Text = "删除";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
             // groupBox5
             // 
+            this.groupBox5.Controls.Add(this.ReadAutoResultButton);
+            this.groupBox5.Controls.Add(this.AutoRichTextBox);
             this.groupBox5.Controls.Add(this.StartButton);
             this.groupBox5.Controls.Add(this.SendInfoButton);
             this.groupBox5.Location = new System.Drawing.Point(554, 23);
@@ -941,7 +960,7 @@
             // 
             // StartButton
             // 
-            this.StartButton.Location = new System.Drawing.Point(34, 125);
+            this.StartButton.Location = new System.Drawing.Point(34, 83);
             this.StartButton.Name = "StartButton";
             this.StartButton.Size = new System.Drawing.Size(117, 23);
             this.StartButton.TabIndex = 1;
@@ -982,6 +1001,24 @@
             this.groupBox4.TabIndex = 5;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "TCP";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(23, 252);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(53, 12);
+            this.label11.TabIndex = 14;
+            this.label11.Text = "发送消息";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(23, 188);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(53, 12);
+            this.label10.TabIndex = 13;
+            this.label10.Text = "接收消息";
             // 
             // StopListenButton
             // 
@@ -1043,6 +1080,7 @@
             this.LocalIPTextBox.Name = "LocalIPTextBox";
             this.LocalIPTextBox.Size = new System.Drawing.Size(120, 21);
             this.LocalIPTextBox.TabIndex = 6;
+            this.LocalIPTextBox.Text = "127.0.0.1";
             // 
             // label20
             // 
@@ -1076,6 +1114,7 @@
             this.RemoteIPTextBox.Name = "RemoteIPTextBox";
             this.RemoteIPTextBox.Size = new System.Drawing.Size(120, 21);
             this.RemoteIPTextBox.TabIndex = 2;
+            this.RemoteIPTextBox.Text = "127.0.0.1";
             // 
             // label17
             // 
@@ -1096,38 +1135,23 @@
             this.ListenButton.UseVisualStyleBackColor = true;
             this.ListenButton.Click += new System.EventHandler(this.ListenButton_Click);
             // 
-            // label10
+            // AutoRichTextBox
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(23, 188);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(53, 12);
-            this.label10.TabIndex = 13;
-            this.label10.Text = "接收消息";
+            this.AutoRichTextBox.Location = new System.Drawing.Point(17, 123);
+            this.AutoRichTextBox.Name = "AutoRichTextBox";
+            this.AutoRichTextBox.Size = new System.Drawing.Size(158, 205);
+            this.AutoRichTextBox.TabIndex = 2;
+            this.AutoRichTextBox.Text = "";
             // 
-            // label11
+            // ReadAutoResultButton
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(23, 252);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(53, 12);
-            this.label11.TabIndex = 14;
-            this.label11.Text = "发送消息";
-            // 
-            // XmlContextMenuStrip
-            // 
-            this.XmlContextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1});
-            this.XmlContextMenuStrip.Name = "XmlContextMenuStrip";
-            this.XmlContextMenuStrip.Size = new System.Drawing.Size(153, 48);
-            this.XmlContextMenuStrip.Opening += new System.ComponentModel.CancelEventHandler(this.XmlContextMenuStrip_Opening);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem1.Text = "删除";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            this.ReadAutoResultButton.Location = new System.Drawing.Point(34, 334);
+            this.ReadAutoResultButton.Name = "ReadAutoResultButton";
+            this.ReadAutoResultButton.Size = new System.Drawing.Size(117, 23);
+            this.ReadAutoResultButton.TabIndex = 3;
+            this.ReadAutoResultButton.Text = "查看结果";
+            this.ReadAutoResultButton.UseVisualStyleBackColor = true;
+            this.ReadAutoResultButton.Click += new System.EventHandler(this.ReadAutoResultButton_Click);
             // 
             // MainForm
             // 
@@ -1173,10 +1197,10 @@
             this.tabPage2.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.XmlContextMenuStrip.ResumeLayout(false);
             this.groupBox5.ResumeLayout(false);
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
-            this.XmlContextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1288,6 +1312,8 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ContextMenuStrip XmlContextMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.RichTextBox AutoRichTextBox;
+        private System.Windows.Forms.Button ReadAutoResultButton;
     }
 }
 

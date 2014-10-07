@@ -25,7 +25,10 @@ namespace 串口调试助手
         private bool sendOver = false;//无用，要删掉
         private Thread useXmlThread;//循环使用不同配置文件的线程
         AutoResetEvent useXmlEvent = new AutoResetEvent(false);//用于向useXmlThread线程发送暂停和继续的消息
-
+        private static string result_filename = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + "-result.txt";
+        private static FileStream result_file = new FileStream(result_filename, FileMode.Create);//保存自动测试的结果
+        private StreamWriter result_sw = new StreamWriter(result_file);
+        
         //接收串口信息的格式
         private enum ReceivedDataType
         {
@@ -53,6 +56,7 @@ namespace 串口调试助手
         {
             InitializeComponent();
             UpdateTextHandler = new UpdateAcceptTextBoxTextHandler(UpdateText);
+            LogHelper.WriteDebug(typeof(MainForm), "==========程序启动==========");
             LogHelper.WriteDebug(typeof(MainForm), "Start without args.");
         }
         //命令行打开窗口，接收一个参数
@@ -61,7 +65,9 @@ namespace 串口调试助手
             InitializeComponent();
             UpdateTextHandler = new UpdateAcceptTextBoxTextHandler(UpdateText);
             cmd = args;
+            LogHelper.WriteDebug(typeof(MainForm), "==========程序启动==========");
             LogHelper.WriteDebug(typeof(MainForm), "Start with args: " + cmd);
+            
         }
        
         /// <summary>
@@ -78,7 +84,8 @@ namespace 串口调试助手
             //载入配置信息
             if (cmd == "")
             {
-                LoadConfig("串口助手配置.xml");//载入默认配置
+                //更新：启动时，不载入任何配置
+                //LoadConfig("串口助手配置.xml");//载入默认配置
             }
             else
             {
@@ -110,7 +117,7 @@ namespace 串口调试助手
             dataBitsComboBox.SelectedIndex = 0;
             //默认停止位设置为1位
             stopBitsComboBox.SelectedIndex = 0;
-            LogHelper.WriteDebug(typeof(MainForm), "默认端口参数设置");
+            LogHelper.WriteDebug(typeof(MainForm), "使用默认端口参数设置");
         }
 
         
@@ -216,7 +223,7 @@ namespace 串口调试助手
             catch (Exception ee)
             {
                 MessageBox.Show(ee.Message);
-                LogHelper.WriteInfo(typeof(MainForm), "Open port" + this.portNameComboBox.SelectedItem.ToString() + " fail, error = " + ee.Message);
+                LogHelper.WriteError(typeof(MainForm), "Open port" + this.portNameComboBox.SelectedItem.ToString() + " fail, error = " + ee.Message);
             }
 
         }
@@ -361,7 +368,7 @@ namespace 串口调试助手
             catch (Exception e)
             {
                 MessageBox.Show(e.Message);
-                LogHelper.WriteInfo(typeof(MainForm), "Send Chars: " + this.sendRichTextBox.Text.ToString() + " fail, error = " + e.Message);
+                LogHelper.WriteError(typeof(MainForm), "Send Chars: " + this.sendRichTextBox.Text.ToString() + " fail, error = " + e.Message);
             }
         }
 
@@ -930,9 +937,11 @@ namespace 串口调试助手
             if (this.sendRichTextBox.Text.Equals(this.acceptRichTextBox.Text))
             {
                 LogHelper.WriteInfo(typeof(MainForm), "Check: Send chars == Receive chars.");
+                result_sw.WriteLine("成功");
                 return true;
             }
             LogHelper.WriteInfo(typeof(MainForm), "Check: Send chars != Receive chars.");
+            result_sw.WriteLine("失败");
             return false;
         }
 
@@ -950,9 +959,10 @@ namespace 串口调试助手
                 MessageBox.Show("需要添加配置文件信息");
                 return;
             }
-
-          
-
+            this.StartButton.Enabled = false;
+            this.AutoRichTextBox.Clear();
+            this.AutoRichTextBox.Text = "开始自动测试\n";
+            LogHelper.WriteDebug(typeof(MainForm), "==========自动测试==========");
             useXmlThread = new Thread(useXmls);
             useXmlThread.Start();
             
@@ -962,24 +972,34 @@ namespace 串口调试助手
         //开始每个配置文件
         private void useXmls()
         {
-            
             try
             {
                 for (int i = 0; i < this.XmlListBox.Items.Count; i++)
                 {
+                    this.AutoRichTextBox.Text = this.AutoRichTextBox.Text + "测试配置文件为：" + XmlListBox.Items[i].ToString() + "\n";
                     LogHelper.WriteInfo(typeof(MainForm), "自动测试, 配置文件为: " + XmlListBox.Items[i].ToString());
+                    result_sw.WriteLine("配置文件：" + XmlListBox.Items[i].ToString());
                     this.richTextBox2.Text = "USE XML " + XmlListBox.Items[i].ToString();
                     SendMsgButton_Click(null, null);
                     LoadConfig(XmlListBox.Items[i].ToString());
                     useXmlEvent.WaitOne();
-
-
-
                 }
+                this.AutoRichTextBox.Text = this.AutoRichTextBox.Text + "自动测试完成\n";
+                this.StartButton.Enabled = true;
+                result_sw.Flush();
+                result_sw.Close();
+                result_file.Close();
+                this.richTextBox2.Text = "AutoTest Over";
+                SendMsgButton_Click(null, null);
             }
             catch (Exception err)
             {
+                this.AutoRichTextBox.Text = this.AutoRichTextBox.Text + "异常：" + err.ToString() + "\n";
                 MessageBox.Show(err.ToString());
+                this.StartButton.Enabled = true;
+                result_sw.Flush();
+                result_sw.Close();
+                result_file.Close();
             }
         }
 
@@ -1026,6 +1046,11 @@ namespace 串口调试助手
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
         {
             this.XmlListBox.Items.RemoveAt(this.XmlListBox.SelectedIndex);
+        }
+
+        private void ReadAutoResultButton_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(result_filename);
         }
     }
 }
