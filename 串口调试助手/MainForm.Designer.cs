@@ -104,6 +104,8 @@
             this.XmlContextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.ReadAutoResultButton = new System.Windows.Forms.Button();
+            this.AutoRichTextBox = new System.Windows.Forms.RichTextBox();
             this.StartButton = new System.Windows.Forms.Button();
             this.SendInfoButton = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -122,8 +124,6 @@
             this.RemoteIPTextBox = new System.Windows.Forms.TextBox();
             this.label17 = new System.Windows.Forms.Label();
             this.ListenButton = new System.Windows.Forms.Button();
-            this.AutoRichTextBox = new System.Windows.Forms.RichTextBox();
-            this.ReadAutoResultButton = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.statusStrip.SuspendLayout();
             this.mainFormContextMenuStrip.SuspendLayout();
@@ -208,15 +208,16 @@
             // 关于软件AToolStripMenuItem
             // 
             this.关于软件AToolStripMenuItem.Name = "关于软件AToolStripMenuItem";
-            this.关于软件AToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.关于软件AToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.关于软件AToolStripMenuItem.Text = "关于软件(&A)";
             this.关于软件AToolStripMenuItem.Click += new System.EventHandler(this.关于软件AToolStripMenuItem_Click);
             // 
             // 使用帮助UToolStripMenuItem
             // 
             this.使用帮助UToolStripMenuItem.Name = "使用帮助UToolStripMenuItem";
-            this.使用帮助UToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.使用帮助UToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.使用帮助UToolStripMenuItem.Text = "使用帮助(&U)";
+            this.使用帮助UToolStripMenuItem.Click += new System.EventHandler(this.使用帮助UToolStripMenuItem_Click);
             // 
             // statusStrip
             // 
@@ -958,6 +959,24 @@
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "下发配置";
             // 
+            // ReadAutoResultButton
+            // 
+            this.ReadAutoResultButton.Location = new System.Drawing.Point(34, 334);
+            this.ReadAutoResultButton.Name = "ReadAutoResultButton";
+            this.ReadAutoResultButton.Size = new System.Drawing.Size(117, 23);
+            this.ReadAutoResultButton.TabIndex = 3;
+            this.ReadAutoResultButton.Text = "查看结果";
+            this.ReadAutoResultButton.UseVisualStyleBackColor = true;
+            this.ReadAutoResultButton.Click += new System.EventHandler(this.ReadAutoResultButton_Click);
+            // 
+            // AutoRichTextBox
+            // 
+            this.AutoRichTextBox.Location = new System.Drawing.Point(17, 123);
+            this.AutoRichTextBox.Name = "AutoRichTextBox";
+            this.AutoRichTextBox.Size = new System.Drawing.Size(158, 205);
+            this.AutoRichTextBox.TabIndex = 2;
+            this.AutoRichTextBox.Text = "";
+            // 
             // StartButton
             // 
             this.StartButton.Location = new System.Drawing.Point(34, 83);
@@ -1134,24 +1153,6 @@
             this.ListenButton.Text = "监听";
             this.ListenButton.UseVisualStyleBackColor = true;
             this.ListenButton.Click += new System.EventHandler(this.ListenButton_Click);
-            // 
-            // AutoRichTextBox
-            // 
-            this.AutoRichTextBox.Location = new System.Drawing.Point(17, 123);
-            this.AutoRichTextBox.Name = "AutoRichTextBox";
-            this.AutoRichTextBox.Size = new System.Drawing.Size(158, 205);
-            this.AutoRichTextBox.TabIndex = 2;
-            this.AutoRichTextBox.Text = "";
-            // 
-            // ReadAutoResultButton
-            // 
-            this.ReadAutoResultButton.Location = new System.Drawing.Point(34, 334);
-            this.ReadAutoResultButton.Name = "ReadAutoResultButton";
-            this.ReadAutoResultButton.Size = new System.Drawing.Size(117, 23);
-            this.ReadAutoResultButton.TabIndex = 3;
-            this.ReadAutoResultButton.Text = "查看结果";
-            this.ReadAutoResultButton.UseVisualStyleBackColor = true;
-            this.ReadAutoResultButton.Click += new System.EventHandler(this.ReadAutoResultButton_Click);
             // 
             // MainForm
             // 

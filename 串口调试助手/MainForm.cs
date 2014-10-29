@@ -25,7 +25,7 @@ namespace 串口调试助手
         private bool sendOver = false;//无用，要删掉
         private Thread useXmlThread;//循环使用不同配置文件的线程
         AutoResetEvent useXmlEvent = new AutoResetEvent(false);//用于向useXmlThread线程发送暂停和继续的消息
-        private static string result_filename = DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + "-result.txt";
+        private static string result_filename =DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss") + "-result.txt";
         private static FileStream result_file = new FileStream(result_filename, FileMode.Create);//保存自动测试的结果
         private StreamWriter result_sw = new StreamWriter(result_file);
         
@@ -206,10 +206,14 @@ namespace 串口调试助手
         {
             try
             {
+                LogHelper.WriteDebug(typeof(MainForm), "set port name");
                 //设置打开的端口号
                 mySerialPort.PortName = portNameComboBox.SelectedItem.ToString();
+
+                LogHelper.WriteDebug(typeof(MainForm), "open port");
                 //打开选中串口
                 mySerialPort.Open();
+                LogHelper.WriteDebug(typeof(MainForm), "open port end");
                 //更换为打开状态的图片
                 openStatusPictureBox.ImageLocation = @"icons\yes.jpg";
                 //更新状态栏的显示
@@ -1051,6 +1055,11 @@ namespace 串口调试助手
         private void ReadAutoResultButton_Click(object sender, EventArgs e)
         {
             System.Diagnostics.Process.Start(result_filename);
+        }
+
+        private void 使用帮助UToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
